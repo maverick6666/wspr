@@ -67,9 +67,15 @@ py -c "from faster_whisper import WhisperModel; WhisperModel('small', device='cp
 py transcribe_lecture.py --name "7주차_CH5_CFG_1"
 ```
 
+다른 폴더에 결과물을 저장하고 싶으면 `--out-dir` 사용:
+
+```powershell
+py transcribe_lecture.py --name "7주차_CH5_CFG_1" --out-dir "C:\Users\me\Desktop\컴파일러"
+```
+
 - 강의 재생 시작 → 60초마다 청크 저장 + 변환 로그 출력
-- 종료: `Ctrl+C` 또는 같은 폴더에 빈 `STOP` 파일 생성
-- 결과물: `7주차_CH5_CFG_1.txt`
+- 종료: `Ctrl+C` 또는 스크립트 폴더에 빈 `STOP` 파일 생성
+- 결과물: 지정한 폴더에 `{강의이름}.txt` + `audio/{강의이름}/chunk_*.wav`
 
 ### 방법 B — Claude Code에서 "시작/끝"으로 제어 (추천)
 

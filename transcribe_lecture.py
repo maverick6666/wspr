@@ -99,11 +99,18 @@ def transcribe_loop(transcript_file: Path) -> None:
 def main() -> None:
     parser = argparse.ArgumentParser(description="강의 실시간 녹음 + Whisper 변환")
     parser.add_argument("--name", required=True, help='강의 이름 (예: "7주차_CH5_CFG_1")')
+    parser.add_argument(
+        "--out-dir",
+        default=None,
+        help="결과물 저장 폴더 (기본: 스크립트가 있는 폴더)",
+    )
     args = parser.parse_args()
 
     name = args.name.strip()
-    transcript_file = BASE_DIR / f"{name}.txt"
-    audio_dir = BASE_DIR / "audio" / name
+    out_dir = Path(args.out_dir).expanduser().resolve() if args.out_dir else BASE_DIR
+    out_dir.mkdir(parents=True, exist_ok=True)
+    transcript_file = out_dir / f"{name}.txt"
+    audio_dir = out_dir / "audio" / name
     audio_dir.mkdir(parents=True, exist_ok=True)
 
     print("=" * 50)
