@@ -1,0 +1,23 @@
+# 녹음 및 변환 결과물
+audio/
+*.wav
+*.txt
+!requirements.txt
+
+# 종료 신호 파일
+STOP
+
+# Python
+__pycache__/
+*.py[cod]
+*.egg-info/
+.venv/
+venv/
+
+# OS
+.DS_Store
+Thumbs.db
+
+# IDE
+.idea/
+.vscode/
