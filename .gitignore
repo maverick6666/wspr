@@ -2,7 +2,12 @@
 audio/
 *.wav
 *.txt
+*.log
 !requirements.txt
+
+# 강의 정리 문서 (강의 저작권 보호 — 공개 저장소에서 제외, README는 유지)
+*.md
+!README.md
 
 # 종료 신호 파일
 STOP
