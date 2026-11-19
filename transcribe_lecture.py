@@ -3,7 +3,7 @@
 
 - Windows 기본 스피커의 loopback으로 시스템 오디오 캡처
 - CHUNK_SECONDS 단위로 잘라 wav 저장
-- faster-whisper base(int8)로 텍스트 변환해 {name}.txt 에 누적
+- faster-whisper small(int8)로 텍스트 변환해 {name}.txt 에 누적
 - STOP 파일 생성 or Ctrl+C로 종료 (큐에 남은 청크까지 모두 변환 후 종료)
 
 사용:
