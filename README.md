@@ -68,33 +68,31 @@
 녹음과 변환을 **서로 다른 스레드**로 나누고 큐로 잇습니다. 변환이 잠깐 밀려도 녹음은 끊기지 않습니다.
 
 ```mermaid
-flowchart LR
+flowchart TB
     subgraph PC["Windows"]
-        V["강의 영상 재생<br/>브라우저 · 인강 플레이어"]
-        SPK["기본 출력 장치<br/>스피커 · 이어폰"]
-        V --> SPK
+        direction LR
+        V["강의 영상 재생<br/>브라우저 · 인강 플레이어"] --> SPK["기본 출력 장치<br/>스피커 · 이어폰"]
     end
 
     subgraph REC["녹음 스레드"]
-        LB["WASAPI loopback 캡처<br/>soundcard · 16kHz 모노"]
-        CH["60초 청크<br/>chunk_시각.wav 저장"]
-        LB --> CH
+        direction LR
+        LB["WASAPI loopback 캡처<br/>soundcard · 16kHz 모노"] --> CH["60초 청크<br/>chunk_시각.wav 저장"]
     end
 
     Q[["변환 대기 큐"]]
 
     subgraph STT["변환 스레드"]
-        W["faster-whisper<br/>small · int8 · CPU<br/>한국어 · beam 5"]
-        VAD["VAD 필터<br/>무음 500ms 이상 건너뜀"]
-        W --- VAD
+        direction LR
+        W["faster-whisper<br/>small · int8 · CPU · 한국어"] --- VAD["VAD 필터<br/>무음 500ms 이상 건너뜀"]
     end
 
-    TXT[("강의이름.txt<br/>시각 + 받아쓴 글 누적")]
-    AI["선택: Claude 등 AI로<br/>교정 · 요약"]
+    subgraph OUT["결과"]
+        direction LR
+        TXT[("강의이름.txt<br/>시각 + 받아쓴 글 누적")] --> AI["선택: Claude 등 AI로<br/>교정 · 요약"]
+    end
 
-    SPK -. 소리 .-> LB
-    CH --> Q --> W
-    W --> TXT --> AI
+    PC -. 소리 .-> REC
+    REC --> Q --> STT --> OUT
 ```
 
 **끝낼 때**: 녹음은 바로 멈추고, 큐에 남은 청크는 **모두 변환한 뒤** 끝납니다. 마지막 몇 분이 사라지지 않습니다.
